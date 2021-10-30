@@ -16,3 +16,8 @@ body {
     opacity: 0.5;
     pointer-events: none;
 }
+
+a {
+    text-decoration: none;
+    color: #a19dff;
+}
