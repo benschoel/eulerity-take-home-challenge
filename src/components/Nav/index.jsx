@@ -6,7 +6,7 @@ const Wrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
 `;
 
 const Links = styled.div`

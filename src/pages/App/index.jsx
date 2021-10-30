@@ -6,9 +6,10 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
     width: 100%;
-    max-width: 800px;
+    max-width: 1368px;
     margin: 0 auto;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
+    padding: 0px 1rem;
 `;
 
 const App = () => {
