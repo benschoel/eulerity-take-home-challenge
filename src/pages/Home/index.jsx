@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addAllPets, setStatus } from "../../redux/slices/petsSlice";
 import { QueryBar } from "./components/QueryBar";
 import { filterPets } from "../../utils/filterPets";
+import { preloadImage } from "../../utils/preloadImage";
 
 const Home = () => {
     const pets = useSelector((state) => state.pets.allPets);
@@ -24,7 +25,10 @@ const Home = () => {
         Axios.get("http://eulerity-hackathon.appspot.com/pets")
             .then(({ data }) => {
                 dispatch(addAllPets(data));
-                dispatch(setStatus(STATUS_CODES.LOADED));
+
+                Promise.all(data.map((pet) => preloadImage(pet.url))).then(() => {
+                    dispatch(setStatus(STATUS_CODES.LOADED));
+                });
             })
             .catch(() => {
                 dispatch(setStatus(STATUS_CODES.ERROR));

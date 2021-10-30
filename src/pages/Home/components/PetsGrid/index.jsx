@@ -1,6 +1,7 @@
 import React from "react";
 import { Pet } from "../Pet";
 import styled from "styled-components";
+import { getNth } from "../../../../utils/getNth";
 
 const Wrapper = styled.div`
     display: flex;
@@ -31,16 +32,6 @@ const Column = styled.div`
         max-width: 100%;
     }
 `;
-
-const getNth = (arr, j) => {
-    const toReturn = [];
-
-    for (let i = j; i < arr.length; i += 4) {
-        toReturn.push(arr[i]);
-    }
-
-    return toReturn;
-};
 
 const PetsGrid = ({ pets }) => {
     return (
