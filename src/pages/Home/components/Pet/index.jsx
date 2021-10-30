@@ -68,10 +68,15 @@ const PetCreatedDate = styled.div`
 
 const Pet = ({ title, description, url, created }) => {
     const selectedImages = useSelector((state) => state.pets.selectedPets);
+    const isDisabled = useSelector((state) => state.pets.isDisabled);
     const dispatch = useDispatch();
 
     return (
-        <PetWrap selected={selectedImages.includes(url)} onClick={() => dispatch(toggleImage(url))}>
+        <PetWrap
+            className={isDisabled ? "disabled" : ""}
+            selected={selectedImages.includes(url)}
+            onClick={() => dispatch(toggleImage(url))}
+        >
             <PetImage src={url} href={title} />
             <PetData className='pet-data'>
                 <PetTitle>{title}</PetTitle>

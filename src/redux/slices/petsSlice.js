@@ -1,10 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { filterPets } from "../../utils/filterPets";
+import STATUS_CODES from "../../utils/STATUS_CODES";
 
 export const petsSlice = createSlice({
     name: "pets",
     initialState: {
         allPets: [],
         selectedPets: [], // url images of each pet
+        isDisabled: false,
+        status: STATUS_CODES.UNLOADED,
     },
     reducers: {
         addAllPets: (state, action) => {
@@ -20,12 +24,21 @@ export const petsSlice = createSlice({
         clearSelections: (state) => {
             state.selectedPets = [];
         },
-        selectAll: (state) => {
-            state.selectedPets = state.allPets.map((pet) => pet.url);
+        selectAll: (state, action) => {
+            state.selectedPets = state.allPets
+                .filter(filterPets(action.payload))
+                .map((pet) => pet.url);
+        },
+        setIsDisabled: (state, action) => {
+            state.isDisabled = action.payload;
+        },
+        setStatus: (state, action) => {
+            state.status = action.payload;
         },
     },
 });
 
-export const { addAllPets, toggleImage, clearSelections, selectAll } = petsSlice.actions;
+export const { addAllPets, toggleImage, clearSelections, selectAll, setIsDisabled, setStatus } =
+    petsSlice.actions;
 
 export default petsSlice.reducer;

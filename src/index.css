@@ -11,3 +11,8 @@ body {
     -moz-osx-font-smoothing: grayscale;
     background-color: #f3f7f9;
 }
+
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
