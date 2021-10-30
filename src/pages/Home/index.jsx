@@ -1,14 +1,18 @@
 import React from "react";
 import Axios from "axios";
 
-import { PageTitle } from "../_components/PageTitle";
 import STATUS_CODES from "../../utils/STATUS_CODES";
 import { PetsGrid } from "./components/PetsGrid";
+import { DownloadBar } from "./components/DownloadBar";
+import { useSelector, useDispatch } from "react-redux";
+import { addAllPets } from "../../redux/slices/petsSlice";
 
 const Home = () => {
+    const pets = useSelector((state) => state.pets.allPets);
+    const dispatch = useDispatch();
     const [status, setStatus] = React.useState(STATUS_CODES.UNLOADED);
 
-    const [pets, setPets] = React.useState([]);
+    // const [pets, setPets] = React.useState([]);
 
     React.useEffect(() => {
         if (status !== STATUS_CODES.UNLOADED) return;
@@ -17,13 +21,13 @@ const Home = () => {
 
         Axios.get("http://eulerity-hackathon.appspot.com/pets")
             .then(({ data }) => {
-                setPets(data);
+                dispatch(addAllPets(data));
                 setStatus(STATUS_CODES.LOADED);
             })
             .catch(() => {
                 setStatus(STATUS_CODES.ERROR);
             });
-    }, [status]);
+    }, [status, dispatch]);
 
     if (status === STATUS_CODES.ERROR) {
         return <div>An error occurred, please try again...</div>;
@@ -33,8 +37,8 @@ const Home = () => {
 
     return (
         <div>
-            {/* <PageTitle>Home</PageTitle> */}
             <PetsGrid pets={pets} />
+            <DownloadBar />
         </div>
     );
 };

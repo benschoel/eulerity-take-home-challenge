@@ -5,6 +5,7 @@ import styled from "styled-components";
 const Wrapper = styled.div`
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 6rem;
 `;
 
 const Column = styled.div`
@@ -12,17 +13,22 @@ const Column = styled.div`
     max-width: 25%;
     padding: 0 0.5rem;
 
-    &:last-of-type{
+    &:last-of-type {
         padding-right: 0px;
     }
 
-    &:first-of-type{
+    &:first-of-type {
         padding-left: 0px;
     }
 
-    @media (max-width: 800px){
+    @media screen and (max-width: 1200px) {
         flex: 50%;
-        max-width: 50%:
+        max-width: 50%;
+    }
+
+    @media screen and (max-width: 800px) {
+        flex: 100%;
+        max-width: 100%;
     }
 `;
 
@@ -38,20 +44,18 @@ const getNth = (arr, j) => {
 
 const PetsGrid = ({ pets }) => {
     return (
-        <div>
-            <Wrapper>
-                {new Array(4).fill(0).map((_, i) => (
-                    <Column key={"column-" + i}>
-                        {getNth(pets, i).map((pet) => (
-                            <Pet key={pet.created + "-" + pet.title} {...pet} />
-                        ))}
-                    </Column>
-                ))}
-                {/* {pets.map((pet, index) => (
+        <Wrapper>
+            {new Array(4).fill().map((_, i) => (
+                <Column key={"column-" + i}>
+                    {getNth(pets, i).map((pet) => (
+                        <Pet key={pet.created + "-" + pet.title} {...pet} />
+                    ))}
+                </Column>
+            ))}
+            {/* {pets.map((pet, index) => (
                     
                 ))} */}
-            </Wrapper>
-        </div>
+        </Wrapper>
     );
 };
 

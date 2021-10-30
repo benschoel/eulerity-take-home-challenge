@@ -1,8 +1,11 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import styled from "styled-components";
+import { Provider } from "react-redux";
+import store from "../../redux/store";
+
 import { Nav } from "../../components/Nav";
 import { Home } from "../Home";
-import styled from "styled-components";
 
 const Wrapper = styled.div`
     width: 100%;
@@ -14,14 +17,16 @@ const Wrapper = styled.div`
 
 const App = () => {
     return (
-        <BrowserRouter>
-            <Wrapper>
-                <Nav />
-                <Switch>
-                    <Route path='/' exact component={Home} />
-                </Switch>
-            </Wrapper>
-        </BrowserRouter>
+        <Provider store={store}>
+            <BrowserRouter>
+                <Wrapper>
+                    <Nav />
+                    <Switch>
+                        <Route path='/' exact component={Home} />
+                    </Switch>
+                </Wrapper>
+            </BrowserRouter>
+        </Provider>
     );
 };
 

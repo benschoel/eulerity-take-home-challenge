@@ -1,9 +1,15 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { toggleImage } from "../../../../redux/slices/petsSlice";
 
 const PetWrap = styled.div`
     margin-bottom: 1rem;
     position: relative;
+    border: solid 4px transparent;
+    border-radius: 8px;
+    transition: 0.2s;
+    width: 100%;
 
     &:hover {
         cursor: pointer;
@@ -13,6 +19,13 @@ const PetWrap = styled.div`
             opacity: 100%;
         }
     }
+
+    ${(props) =>
+        props.selected &&
+        ` 
+        border: solid 4px #a19dff;
+        box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.16);
+        `}
 `;
 
 const PetImage = styled.img`
@@ -54,8 +67,11 @@ const PetCreatedDate = styled.div`
 `;
 
 const Pet = ({ title, description, url, created }) => {
+    const selectedImages = useSelector((state) => state.pets.selectedPets);
+    const dispatch = useDispatch();
+
     return (
-        <PetWrap>
+        <PetWrap selected={selectedImages.includes(url)} onClick={() => dispatch(toggleImage(url))}>
             <PetImage src={url} href={title} />
             <PetData className='pet-data'>
                 <PetTitle>{title}</PetTitle>
