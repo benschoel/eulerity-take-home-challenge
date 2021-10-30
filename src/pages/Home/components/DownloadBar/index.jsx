@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 import { clearSelections, selectAll, setIsDisabled } from "../../../../redux/slices/petsSlice";
+import { filterPets } from "../../../../utils/filterPets";
 
 const Wrapper = styled.div`
     transition: 0.2s;
@@ -82,6 +83,20 @@ const DownloadBar = ({ query }) => {
     const isDisabled = useSelector((state) => state.pets.isDisabled);
     const dispatch = useDispatch();
 
+    React.useEffect(() => {
+        const onKeyUp = (e) => {
+            if (e.key !== "Escape") return;
+
+            dispatch(clearSelections());
+        };
+
+        window.addEventListener("keyup", onKeyUp);
+
+        return () => {
+            window.removeEventListener("keyup", onKeyUp);
+        };
+    }, [dispatch]);
+
     const downloadImages = async () => {
         dispatch(setIsDisabled(true));
 
@@ -119,9 +134,12 @@ const DownloadBar = ({ query }) => {
                     <Button
                         style={{ marginRight: "0.5rem" }}
                         className={
-                            isDisabled || selectedImages.length === allPets.length ? "disabled" : ""
+                            isDisabled ||
+                            selectedImages.length === allPets.filter(filterPets(query)).length
+                                ? "disabled"
+                                : ""
                         }
-                        onClick={() => dispatch(selectAll())}
+                        onClick={() => dispatch(selectAll(query))}
                     >
                         Select all
                     </Button>
